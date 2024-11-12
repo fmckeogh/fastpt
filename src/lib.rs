@@ -36,7 +36,7 @@ impl<'data> Decoder<'data> {
     }
 
     fn pos_inc(&mut self) -> u8 {
-        let byte = self.data[self.current_pos];
+        let byte = unsafe { *self.data.get_unchecked(self.current_pos) };
         self.current_pos += 1;
         byte
     }
