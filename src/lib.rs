@@ -34,6 +34,10 @@ impl<'data> Decoder<'data> {
         self.current_pos
     }
 
+    pub fn set_offset(&mut self, offset: usize) {
+        self.current_pos = offset;
+    }
+
     fn pos_inc(&mut self) -> u8 {
         let byte = self.data[self.current_pos];
         self.current_pos += 1;
