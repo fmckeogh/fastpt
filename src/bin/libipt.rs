@@ -20,6 +20,7 @@ fn main() {
     let mut decoder = PacketDecoder::new(&ConfigBuilder::new(&mut data).unwrap().finish()).unwrap();
     decoder.sync_forward().unwrap();
     assert_eq!(decoder.sync_offset().unwrap(), 0);
+    assert_eq!(decoder.offset().unwrap(), 0);
 
     let mut sum: u64 = 0;
     let start = Instant::now();
@@ -33,7 +34,8 @@ fn main() {
     let end = Instant::now();
 
     println!(
-        "{:.2} GB/s, {sum}",
-        (data.len() as f64) / ((end - start).as_nanos() as f64)
+        "{:.2} GB/s, {:#x} {sum}",
+        (decoder.offset().unwrap() as f64) / ((end - start).as_nanos() as f64),
+        decoder.offset().unwrap(),
     );
 }

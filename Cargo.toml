@@ -6,3 +6,7 @@ edition = "2021"
 [dependencies]
 libipt = "0.1.4"
 memmap2 = "0.9.5"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
