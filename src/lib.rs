@@ -10,12 +10,6 @@ pub struct Decoder<'data> {
 
 impl<'data> Decoder<'data> {
     pub fn new(data: &'data [u8]) -> Self {
-        match find_next_sync(data) {
-            Some(0) => (),
-            Some(_) => panic!("sync point not at start of data"),
-            None => panic!("Failed to find sync point"),
-        }
-
         Self {
             data,
             current_pos: 0,
@@ -23,9 +17,12 @@ impl<'data> Decoder<'data> {
         }
     }
 
-    // pub fn sync_forward(&mut self) {
-    //     find_next_sync(&self.data[self.last_sync_offset..]).unwrap();
-    // }
+    pub fn sync_forward(&mut self) {
+        match find_next_sync(&self.data[self.last_sync_offset..]) {
+            Some(n) => self.current_pos = n,
+            None => panic!("Failed to find sync point"),
+        }
+    }
 
     pub fn sync_offset(&self) -> usize {
         self.last_sync_offset
